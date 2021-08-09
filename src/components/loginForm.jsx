@@ -9,7 +9,7 @@ class LoginForm extends Component {
   // }
   state = {
     account: { username: "", password: "" },
-    error: {},
+    errors: {},
   };
   validate = () => {
     const errors = {};
@@ -26,8 +26,10 @@ class LoginForm extends Component {
     // const username = this.username.current.value;
     //call the server
     const errors = this.validate();
-    console.log(errors);
-    this.setState({ errors });
+    // console.log(errors);
+    this.setState({ errors: errors || {} });
+    if (errors) return;
+
     console.log("Submitted");
   };
   handleChange = ({ currentTarget: input }) => {
@@ -36,7 +38,7 @@ class LoginForm extends Component {
     this.setState({ account });
   };
   render() {
-    const { account } = this.state;
+    const { account, errors } = this.state;
     return (
       <div>
         <h1>Login</h1>
@@ -46,12 +48,14 @@ class LoginForm extends Component {
             value={account.username}
             label="Username"
             onChange={this.handleChange}
+            error={errors.username}
           />
           <Input
             name="password"
             value={account.password}
             label="Password"
             onChange={this.handleChange}
+            error={errors.password}
           />
 
           <button className="btn btn-primary">Login</button>
