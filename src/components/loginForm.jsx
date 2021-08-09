@@ -12,13 +12,21 @@ class LoginForm extends Component {
     error: {},
   };
   validate = () => {
-    return { username: "username is required" };
+    const errors = {};
+    const { account } = this.state;
+    if (account.username.trim() === "")
+      errors.username = "Username is required";
+    if (account.password.trim() === "")
+      errors.password = "Password is required";
+
+    return Object.keys(errors).length === 0 ? null : errors;
   };
   handleSubmit = (e) => {
     e.preventDefault();
     // const username = this.username.current.value;
     //call the server
     const errors = this.validate();
+    console.log(errors);
     this.setState({ errors });
     console.log("Submitted");
   };
