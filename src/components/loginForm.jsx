@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Joi from "joi-browser";
 import Input from "./common/input";
 class LoginForm extends Component {
   // username = React.createRef();
@@ -11,7 +12,16 @@ class LoginForm extends Component {
     account: { username: "", password: "" },
     errors: {},
   };
+
+  schema = {
+    username: Joi.string().required(),
+    password: Joi.string().required(),
+  };
   validate = () => {
+    const result = Joi.validate(this.state.account, this.schema, {
+      abortEarly: false,
+    });
+    console.log(result);
     const errors = {};
     const { account } = this.state;
     if (account.username.trim() === "")
@@ -37,7 +47,7 @@ class LoginForm extends Component {
       if (value.trim() === "") return "username is required";
     }
     if (name === "password") {
-      if (value.trim() === "") return "Password is required";
+      if (value.trim() === "") return "P assword is required";
     }
   };
   handleChange = ({ currentTarget: input }) => {
